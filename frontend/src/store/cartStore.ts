@@ -53,60 +53,10 @@ interface CartStore {
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
-  items: [
-    {
-      id: 'prod-1',
-      name: 'Organic Whole Milk 1L',
-      category: 'Dairy',
-      price: 65,
-      originalPrice: 72,
-      unit: '1L Pouch',
-      image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&auto=format&fit=crop&q=80',
-      storeName: 'Fresh Mart (MG Road)',
-      storeDistance: '0.6 km',
-      deliveryTime: '8-12 mins',
-      quantity: 2,
-    },
-    {
-      id: 'prod-2',
-      name: 'Hass Avocados (Pack of 2)',
-      category: 'Produce',
-      price: 180,
-      originalPrice: 220,
-      unit: '2 Pcs (Approx 350g)',
-      image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&auto=format&fit=crop&q=80',
-      storeName: 'Green Basket Organics',
-      storeDistance: '1.1 km',
-      deliveryTime: '10-15 mins',
-      quantity: 1,
-    },
-  ],
+  items: [],
   isOpen: false,
-  addresses: [
-    {
-      id: 'addr-1',
-      label: 'Home',
-      addressLine: 'Flat 402, Sunshine Heights, 12th Main',
-      city: 'Indiranagar, Bengaluru',
-      landmark: 'Near Metro Station',
-      isDefault: true,
-    },
-    {
-      id: 'addr-2',
-      label: 'Work',
-      addressLine: 'Tech Tower, 5th Floor, Outer Ring Road',
-      city: 'Marathahalli, Bengaluru',
-      landmark: 'Opposite Embassy Tech Village',
-    },
-  ],
-  selectedAddress: {
-    id: 'addr-1',
-    label: 'Home',
-    addressLine: 'Flat 402, Sunshine Heights, 12th Main',
-    city: 'Indiranagar, Bengaluru',
-    landmark: 'Near Metro Station',
-    isDefault: true,
-  },
+  addresses: [],
+  selectedAddress: null,
   paymentMethod: 'upi',
 
   openCart: () => set({ isOpen: true }),

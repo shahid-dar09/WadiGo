@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, Filter, Store, Clock, Zap, Sparkles, CheckCircle2,
-  SlidersHorizontal, ChevronDown, ShoppingBag, ArrowUpDown, X
+  SlidersHorizontal, ChevronDown, ShoppingBag, ArrowUpDown, X, Package
 } from 'lucide-react';
 import { Container } from '../../components/ui/Container';
 import { useCartStore } from '../../store/cartStore';
 
-interface StoreOption {
+export interface StoreOption {
   storeName: string;
   distance: string;
   price: number;
@@ -16,7 +16,7 @@ interface StoreOption {
   isBestMatch?: boolean;
 }
 
-interface CatalogProduct {
+export interface CatalogProduct {
   id: string;
   name: string;
   category: string;
@@ -28,103 +28,19 @@ interface CatalogProduct {
   stores: StoreOption[];
 }
 
-const PRODUCTS_DATA: CatalogProduct[] = [
-  {
-    id: 'cat-1',
-    name: 'Organic Whole Milk 1L',
-    category: 'Dairy',
-    unit: '1L Pouch',
-    bestPrice: 65,
-    originalPrice: 72,
-    image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&auto=format&fit=crop&q=80',
-    fastestDelivery: '8-12 mins',
-    stores: [
-      { storeName: 'Fresh Mart (MG Road)', distance: '0.6 km', price: 65, deliveryTime: '8 mins', stock: 'In Stock (18 units)', isBestMatch: true },
-      { storeName: 'Green Grocery Hub', distance: '1.4 km', price: 68, deliveryTime: '14 mins', stock: 'In Stock (5 units)' },
-      { storeName: 'SuperDaily Express', distance: '2.2 km', price: 63, deliveryTime: '22 mins', stock: 'Low Stock (2 units)' },
-    ],
-  },
-  {
-    id: 'cat-2',
-    name: 'Hass Avocados (Pack of 2)',
-    category: 'Produce',
-    unit: '2 Pcs (Approx 350g)',
-    bestPrice: 180,
-    originalPrice: 220,
-    image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&auto=format&fit=crop&q=80',
-    fastestDelivery: '10-15 mins',
-    stores: [
-      { storeName: 'Green Basket Organics', distance: '1.1 km', price: 180, deliveryTime: '10 mins', stock: 'Fresh Stock', isBestMatch: true },
-      { storeName: 'Natures Gourmet Store', distance: '1.9 km', price: 195, deliveryTime: '18 mins', stock: 'In Stock' },
-    ],
-  },
-  {
-    id: 'cat-3',
-    name: 'Artisanal Sourdough Bread',
-    category: 'Bakery',
-    unit: '400g Fresh Loaf',
-    bestPrice: 120,
-    originalPrice: 145,
-    image: 'https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?w=400&auto=format&fit=crop&q=80',
-    fastestDelivery: '12-15 mins',
-    stores: [
-      { storeName: 'The Daily Loaf Bakery', distance: '1.2 km', price: 120, deliveryTime: '12 mins', stock: 'Baked Today', isBestMatch: true },
-      { storeName: 'Bakers Corner Indiranagar', distance: '2.5 km', price: 130, deliveryTime: '20 mins', stock: 'In Stock' },
-    ],
-  },
-  {
-    id: 'cat-4',
-    name: 'Farm Fresh Eggs (Pack of 6)',
-    category: 'Dairy',
-    unit: '6 Pcs',
-    bestPrice: 85,
-    originalPrice: 95,
-    image: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400&auto=format&fit=crop&q=80',
-    fastestDelivery: '6-10 mins',
-    stores: [
-      { storeName: 'Pure Farm Organics', distance: '0.4 km', price: 85, deliveryTime: '6 mins', stock: 'In Stock (40 units)', isBestMatch: true },
-    ],
-  },
-  {
-    id: 'cat-5',
-    name: 'Wireless Noise Canceling Earbuds',
-    category: 'Electronics',
-    unit: '1 Pair (Black)',
-    bestPrice: 2499,
-    originalPrice: 3499,
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&auto=format&fit=crop&q=80',
-    fastestDelivery: '15-20 mins',
-    stores: [
-      { storeName: 'Croma Local Outlet', distance: '1.5 km', price: 2499, deliveryTime: '15 mins', stock: 'In Stock', isBestMatch: true },
-      { storeName: 'Reliance Digital Express', distance: '2.8 km', price: 2599, deliveryTime: '22 mins', stock: 'In Stock' },
-    ],
-  },
-  {
-    id: 'cat-6',
-    name: 'Cold Pressed Orange Juice 500ml',
-    category: 'Beverages',
-    unit: '500ml Bottle',
-    bestPrice: 110,
-    originalPrice: 130,
-    image: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400&auto=format&fit=crop&q=80',
-    fastestDelivery: '8-12 mins',
-    stores: [
-      { storeName: 'Juice Bar & Organics', distance: '0.7 km', price: 110, deliveryTime: '8 mins', stock: 'Cold Stock', isBestMatch: true },
-    ],
-  },
-];
-
-const CATEGORIES = ['All', 'Dairy', 'Produce', 'Bakery', 'Electronics', 'Beverages'];
+const CATEGORIES = ['All', 'Dairy', 'Produce', 'Bakery', 'Electronics', 'Beverages', 'Pharmacy'];
 
 export const ProductCatalogPage: React.FC = () => {
-  const [searchQuery, setSearchQuery]       = useState('');
+  const [searchQuery, setSearchQuery]           = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedProductStores, setSelectedProductStores] = useState<CatalogProduct | null>(null);
 
+  /* Real dynamic products array (starts empty until backend connects or user adds) */
+  const products: CatalogProduct[] = [];
+
   const { addItem } = useCartStore();
 
-  /* Filter products */
-  const filteredProducts = PRODUCTS_DATA.filter((p) => {
+  const filteredProducts = products.filter((p) => {
     const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
     const matchesSearch   = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             p.category.toLowerCase().includes(searchQuery.toLowerCase());
@@ -157,7 +73,7 @@ export const ProductCatalogPage: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search milk, avocados, bread, earbuds..."
+              placeholder="Search any product..."
               className="w-full pl-12 pr-10 py-3.5 rounded-2xl border border-indigo-100 dark:border-white/10 bg-white dark:bg-brand-darkSurface text-sm text-brand-primary dark:text-white placeholder:text-slate-400 shadow-md focus:outline-none focus:border-brand-secondary dark:focus:border-brand-rose transition-all"
             />
             {searchQuery && (
@@ -191,14 +107,20 @@ export const ProductCatalogPage: React.FC = () => {
           </div>
         </div>
 
-        {/* ── PRODUCTS GRID ───────────────────────────────────────────── */}
+        {/* ── PRODUCTS GRID (EMPTY STATE) ─────────────────────────────── */}
         {filteredProducts.length === 0 ? (
-          <div className="py-20 text-center space-y-3">
-            <Search className="w-10 h-10 mx-auto text-slate-400" />
-            <h3 className="font-bold text-base text-brand-primary dark:text-white">No products found</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              Try adjusting your search query or switching categories.
-            </p>
+          <div className="py-20 text-center space-y-4 max-w-md mx-auto rounded-3xl bg-white dark:bg-brand-darkSurface p-8 border border-indigo-100/70 dark:border-white/10 shadow-xl">
+            <div className="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center bg-indigo-50 dark:bg-white/5 text-slate-400">
+              <Package className="w-7 h-7" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-display font-extrabold text-lg text-brand-primary dark:text-white">
+                No Products Listed Yet
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                As local merchants register their inventory, live product availability, prices, and sub-15 minute dispatch windows will populate here automatically.
+              </p>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -302,112 +224,6 @@ export const ProductCatalogPage: React.FC = () => {
             })}
           </div>
         )}
-
-        {/* ── AI MERCHANT COMPARISON MODAL ────────────────────────────── */}
-        <AnimatePresence>
-          {selectedProductStores && (
-            <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedProductStores(null)}
-                className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm"
-              />
-
-              <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                className="relative z-10 w-full max-w-lg rounded-3xl bg-white dark:bg-brand-darkSurface p-6 shadow-2xl border border-indigo-100 dark:border-white/10 space-y-5"
-              >
-                <div className="flex items-center justify-between border-b border-indigo-50 dark:border-white/5 pb-4">
-                  <div>
-                    <span className="section-badge text-[10px] mb-1">
-                      <Sparkles className="w-3 h-3" /> Live Merchant AI Routing
-                    </span>
-                    <h3 className="font-display font-extrabold text-lg text-brand-primary dark:text-white">
-                      {selectedProductStores.name}
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => setSelectedProductStores(null)}
-                    className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-white"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Nearby verified local merchants carrying this item:
-                  </p>
-
-                  {selectedProductStores.stores.map((s, i) => (
-                    <div
-                      key={s.storeName}
-                      className={`p-4 rounded-2xl border flex items-center justify-between ${
-                        s.isBestMatch
-                          ? 'border-brand-secondary dark:border-brand-rose bg-indigo-50/50 dark:bg-brand-rose/10'
-                          : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/4'
-                      }`}
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-xs text-brand-primary dark:text-white">
-                            {s.storeName}
-                          </span>
-                          {s.isBestMatch && (
-                            <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-brand-secondary dark:bg-brand-rose text-white">
-                              ★ Best AI Match
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                          {s.distance} away · {s.deliveryTime} · {s.stock}
-                        </p>
-                      </div>
-
-                      <div className="text-right">
-                        <span className="font-extrabold text-sm text-brand-primary dark:text-white block">
-                          ₹{s.price}
-                        </span>
-                        <button
-                          onClick={() => {
-                            addItem({
-                              id: selectedProductStores.id,
-                              name: selectedProductStores.name,
-                              category: selectedProductStores.category,
-                              price: s.price,
-                              unit: selectedProductStores.unit,
-                              image: selectedProductStores.image,
-                              storeName: s.storeName,
-                              storeDistance: s.distance,
-                              deliveryTime: s.deliveryTime,
-                            });
-                            setSelectedProductStores(null);
-                          }}
-                          className="text-[11px] font-bold text-brand-secondary dark:text-brand-rose hover:underline"
-                        >
-                          Select Store →
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pt-2 text-center">
-                  <button
-                    onClick={() => setSelectedProductStores(null)}
-                    className="px-6 py-2.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-200"
-                  >
-                    Done
-                  </button>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
 
       </Container>
     </div>

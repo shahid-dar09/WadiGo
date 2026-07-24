@@ -83,11 +83,11 @@ export const ProfilePage: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-display font-extrabold text-lg text-brand-primary dark:text-white">
-                    {user?.name || 'Customer Name'}
+                    {user?.name || 'User Account'}
                   </h3>
                   <p className="text-xs text-slate-400">Verified WadiGo Customer</p>
                   <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 dark:bg-white/10 text-indigo-700 dark:text-indigo-300">
-                    2-Step Email OTP Security Active
+                    2-Step Email OTP Active
                   </span>
                 </div>
               </div>
@@ -100,7 +100,8 @@ export const ProfilePage: React.FC = () => {
                     <input
                       type="text"
                       readOnly
-                      value={user?.name || 'John Doe'}
+                      value={user?.name || ''}
+                      placeholder="Not specified"
                       className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
                     />
                   </div>
@@ -113,7 +114,8 @@ export const ProfilePage: React.FC = () => {
                     <input
                       type="email"
                       readOnly
-                      value={user?.email || 'customer@example.com'}
+                      value={user?.email || ''}
+                      placeholder="Not specified"
                       className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
                     />
                   </div>
@@ -126,7 +128,8 @@ export const ProfilePage: React.FC = () => {
                     <input
                       type="text"
                       readOnly
-                      value={user?.phone || '+91 9876543210'}
+                      value={user?.phone || ''}
+                      placeholder="Not specified"
                       className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
                     />
                   </div>
@@ -193,7 +196,7 @@ export const ProfilePage: React.FC = () => {
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Flat 402, Sunshine Heights, 12th Main"
+                        placeholder="e.g. Flat 402, 12th Main Street"
                         value={newAddressLine}
                         onChange={(e) => setNewAddressLine(e.target.value)}
                         className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none"
@@ -215,7 +218,7 @@ export const ProfilePage: React.FC = () => {
                         <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Landmark (Optional)</label>
                         <input
                           type="text"
-                          placeholder="e.g. Near Metro Station"
+                          placeholder="e.g. Near Central Park"
                           value={newLandmark}
                           onChange={(e) => setNewLandmark(e.target.value)}
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none"
@@ -242,46 +245,54 @@ export const ProfilePage: React.FC = () => {
                 )}
               </AnimatePresence>
 
-              {/* Saved Addresses List */}
-              <div className="space-y-3">
-                {addresses.map((addr) => {
-                  const isSelected = selectedAddress?.id === addr.id;
-                  return (
-                    <div
-                      key={addr.id}
-                      onClick={() => setSelectedAddress(addr)}
-                      className={`p-4 rounded-2xl border cursor-pointer transition-all ${
-                        isSelected
-                          ? 'border-brand-secondary bg-indigo-50/50 dark:border-brand-rose dark:bg-brand-rose/10 shadow-md'
-                          : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/4'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-2.5">
-                          <div className={`p-2 rounded-xl ${isSelected ? 'bg-brand-secondary dark:bg-brand-rose text-white' : 'bg-slate-200 dark:bg-white/10 text-slate-500'}`}>
-                            <MapPin className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-sm text-brand-primary dark:text-white">{addr.label}</span>
-                              {isSelected && (
-                                <span className="px-2 py-0.5 rounded-full bg-brand-secondary dark:bg-brand-rose text-[9px] font-bold text-white">
-                                  Active Location
-                                </span>
-                              )}
+              {/* Saved Addresses List (Empty state) */}
+              {addresses.length === 0 ? (
+                <div className="py-12 text-center space-y-3 rounded-2xl bg-slate-50/50 dark:bg-white/3 border border-slate-200/60 dark:border-white/5">
+                  <MapPin className="w-8 h-8 mx-auto text-slate-400" />
+                  <p className="font-bold text-xs text-slate-700 dark:text-slate-300">No Saved Delivery Addresses</p>
+                  <p className="text-[11px] text-slate-400">Click "+ Add New Address" above to save your home or work delivery location.</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {addresses.map((addr) => {
+                    const isSelected = selectedAddress?.id === addr.id;
+                    return (
+                      <div
+                        key={addr.id}
+                        onClick={() => setSelectedAddress(addr)}
+                        className={`p-4 rounded-2xl border cursor-pointer transition-all ${
+                          isSelected
+                            ? 'border-brand-secondary bg-indigo-50/50 dark:border-brand-rose dark:bg-brand-rose/10 shadow-md'
+                            : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/4'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center gap-2.5">
+                            <div className={`p-2 rounded-xl ${isSelected ? 'bg-brand-secondary dark:bg-brand-rose text-white' : 'bg-slate-200 dark:bg-white/10 text-slate-500'}`}>
+                              <MapPin className="w-4 h-4" />
                             </div>
-                            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
-                              {addr.addressLine}, {addr.city} {addr.landmark && `(${addr.landmark})`}
-                            </p>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-sm text-brand-primary dark:text-white">{addr.label}</span>
+                                {isSelected && (
+                                  <span className="px-2 py-0.5 rounded-full bg-brand-secondary dark:bg-brand-rose text-[9px] font-bold text-white">
+                                    Active Location
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                                {addr.addressLine}, {addr.city} {addr.landmark && `(${addr.landmark})`}
+                              </p>
+                            </div>
                           </div>
-                        </div>
 
-                        {isSelected && <CheckCircle2 className="w-5 h-5 text-brand-secondary dark:text-brand-rose shrink-0" />}
+                          {isSelected && <CheckCircle2 className="w-5 h-5 text-brand-secondary dark:text-brand-rose shrink-0" />}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
 
             </div>
           </div>
