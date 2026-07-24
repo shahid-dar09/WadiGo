@@ -139,21 +139,23 @@ export const Navbar: React.FC = () => {
           {/* ── Right Controls ──────────────────────────────────────── */}
           <div className="flex items-center gap-2">
 
-            {/* Shopping Cart Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={openCart}
-              className="relative p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-white/5 hover:text-brand-secondary dark:hover:text-brand-rose transition-all duration-200"
-              title="View Cart"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              {totalCartCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-brand-rose text-white font-extrabold text-[10px] flex items-center justify-center shadow-md animate-pulse">
-                  {totalCartCount}
-                </span>
-              )}
-            </motion.button>
+            {/* Shopping Cart Button (Customer Portal only) */}
+            {isAuthenticated && !isLanding && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={openCart}
+                className="relative p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-white/5 hover:text-brand-secondary dark:hover:text-brand-rose transition-all duration-200"
+                title="View Cart"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                {totalCartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-brand-rose text-white font-extrabold text-[10px] flex items-center justify-center shadow-md animate-pulse">
+                    {totalCartCount}
+                  </span>
+                )}
+              </motion.button>
+            )}
 
             {/* Theme toggle */}
             <motion.button

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { CustomerSidebar } from './CustomerSidebar';
 import { CustomerHeader } from './CustomerHeader';
 import { CustomerBottomNav } from './CustomerBottomNav';
@@ -7,10 +7,13 @@ import { CustomerFooter } from './CustomerFooter';
 import { CartDrawer } from '../cart/CartDrawer';
 
 export const CustomerLayout: React.FC = () => {
+  const location = useLocation();
+  const isDashboard = location.pathname === '/dashboard';
+
   return (
     <div className="min-h-screen flex bg-brand-background dark:bg-brand-darkBg text-slate-900 dark:text-slate-100 transition-colors duration-200">
       
-      {/* Desktop Left Sidebar */}
+      {/* Desktop Left Sidebar (Collapsible) */}
       <CustomerSidebar />
 
       {/* Main Content Column */}
@@ -21,7 +24,8 @@ export const CustomerLayout: React.FC = () => {
           <Outlet />
         </main>
 
-        <CustomerFooter />
+        {/* Full app info footer only on Dashboard */}
+        <CustomerFooter showFull={isDashboard} />
       </div>
 
       {/* Mobile Bottom Navigation */}

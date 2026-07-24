@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   User, Mail, Phone, MapPin, Plus, Trash2, CheckCircle2,
-  ShieldCheck, Lock, Building, Home, Sparkles
+  ShieldCheck, Lock, Building, Home, Sparkles, LogOut
 } from 'lucide-react';
 import { Container } from '../../components/ui/Container';
 import { Button } from '../../components/ui/Button';
@@ -10,8 +11,9 @@ import { useAuthStore } from '../../store/authStore';
 import { useCartStore } from '../../store/cartStore';
 
 export const ProfilePage: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { addresses, addAddress, setSelectedAddress, selectedAddress } = useCartStore();
+  const navigate = useNavigate();
 
   const [showAddAddress, setShowAddAddress] = useState(false);
   const [newLabel, setNewLabel]               = useState<'Home' | 'Work' | 'Other'>('Home');
@@ -20,6 +22,11 @@ export const ProfilePage: React.FC = () => {
   const [newLandmark, setNewLandmark]         = useState('');
 
   const [savedBanner, setSavedBanner]       = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/auth/login');
+  };
 
   const handleCreateAddress = (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,13 +77,13 @@ export const ProfilePage: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
 
-          {/* ── LEFT: USER PROFILE DETAILS ────────────────────────────── */}
+          {/* ── LEFT: USER PROFILE DETAILS & MOBILE SIGN OUT ───────────── */}
           <div className="lg:col-span-5 space-y-6">
             <div className="p-6 rounded-3xl bg-white dark:bg-brand-darkSurface border border-indigo-100/70 dark:border-white/10 shadow-xl space-y-5">
               
               <div className="flex items-center gap-4 border-b border-indigo-50 dark:border-white/5 pb-5">
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center font-extrabold text-xl text-white shadow-lg"
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center font-extrabold text-xl text-white shadow-lg shrink-0"
                   style={{ background: 'linear-gradient(135deg, #7C3AED, #F43F5E)' }}
                 >
                   {user?.name ? user.name[0].toUpperCase() : 'U'}
@@ -102,7 +109,7 @@ export const ProfilePage: React.FC = () => {
                       readOnly
                       value={user?.name || ''}
                       placeholder="Not specified"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white font-medium"
                     />
                   </div>
                 </div>
@@ -116,7 +123,7 @@ export const ProfilePage: React.FC = () => {
                       readOnly
                       value={user?.email || ''}
                       placeholder="Not specified"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white font-medium"
                     />
                   </div>
                 </div>
@@ -130,10 +137,21 @@ export const ProfilePage: React.FC = () => {
                       readOnly
                       value={user?.phone || ''}
                       placeholder="Not specified"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white font-medium"
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* Sign Out Button (Prominent for Mobile & Desktop) */}
+              <div className="pt-2 border-t border-slate-100 dark:border-white/5">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 font-bold text-xs hover:bg-red-100 dark:hover:bg-red-950/60 transition-colors shadow-sm"
+                >
+                  <LogOut className="w-4 h-4 text-red-500" />
+                  <span>Sign Out of WadiGo</span>
+                </button>
               </div>
 
             </div>
@@ -162,7 +180,7 @@ export const ProfilePage: React.FC = () => {
                 </button>
               </div>
 
-              {/* Add Address Form Accordion */}
+              {/* Add Address Form Accordion (Dark mode contrast fixed) */}
               <AnimatePresence>
                 {showAddAddress && (
                   <motion.form
@@ -170,7 +188,7 @@ export const ProfilePage: React.FC = () => {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     onSubmit={handleCreateAddress}
-                    className="p-5 rounded-2xl bg-indigo-50/60 dark:bg-white/4 border border-indigo-100 dark:border-white/10 space-y-4 overflow-hidden"
+                    className="p-5 rounded-2xl bg-indigo-50/80 dark:bg-slate-900/90 border border-indigo-100 dark:border-white/10 space-y-4 overflow-hidden shadow-lg"
                   >
                     <h4 className="font-bold text-sm text-brand-primary dark:text-white">Add Delivery Location</h4>
 
@@ -182,8 +200,8 @@ export const ProfilePage: React.FC = () => {
                           onClick={() => setNewLabel(label)}
                           className={`py-2 rounded-xl text-xs font-bold border transition-all ${
                             newLabel === label
-                              ? 'bg-brand-primary dark:bg-white text-white dark:text-slate-900 border-brand-primary'
-                              : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10'
+                              ? 'bg-brand-primary dark:bg-gradient-to-r dark:from-brand-rose dark:to-brand-violet text-white border-transparent shadow-sm'
+                              : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-brand-secondary'
                           }`}
                         >
                           {label}
@@ -199,7 +217,7 @@ export const ProfilePage: React.FC = () => {
                         placeholder="e.g. Flat 402, 12th Main Street"
                         value={newAddressLine}
                         onChange={(e) => setNewAddressLine(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-brand-secondary dark:focus:border-brand-rose"
                       />
                     </div>
 
@@ -211,7 +229,7 @@ export const ProfilePage: React.FC = () => {
                           required
                           value={newCity}
                           onChange={(e) => setNewCity(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-brand-secondary dark:focus:border-brand-rose"
                         />
                       </div>
                       <div className="space-y-1">
@@ -221,7 +239,7 @@ export const ProfilePage: React.FC = () => {
                           placeholder="e.g. Near Central Park"
                           value={newLandmark}
                           onChange={(e) => setNewLandmark(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-brand-secondary dark:focus:border-brand-rose"
                         />
                       </div>
                     </div>
@@ -230,13 +248,13 @@ export const ProfilePage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setShowAddAddress(false)}
-                        className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-700"
+                        className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
-                        className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-emerald-500 hover:bg-emerald-600 transition-colors"
+                        className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-emerald-500 hover:bg-emerald-600 transition-colors shadow-sm"
                       >
                         Save Location
                       </button>
@@ -262,8 +280,8 @@ export const ProfilePage: React.FC = () => {
                         onClick={() => setSelectedAddress(addr)}
                         className={`p-4 rounded-2xl border cursor-pointer transition-all ${
                           isSelected
-                            ? 'border-brand-secondary bg-indigo-50/50 dark:border-brand-rose dark:bg-brand-rose/10 shadow-md'
-                            : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/4'
+                            ? 'border-brand-secondary bg-indigo-50/90 dark:bg-indigo-950/70 dark:border-brand-rose shadow-md'
+                            : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/60'
                         }`}
                       >
                         <div className="flex items-start justify-between">

@@ -96,55 +96,27 @@ export const DashboardPage: React.FC = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-brand-darkSurface border border-indigo-100/70 dark:border-white/10 shadow-xl space-y-4 text-center"
+          className="p-8 sm:p-12 rounded-3xl bg-white dark:bg-brand-darkSurface border border-indigo-100/70 dark:border-white/10 shadow-xl space-y-4 text-center"
         >
-          <div className="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center bg-indigo-50 dark:bg-white/5 text-slate-400">
-            <Package className="w-7 h-7" />
+          <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center bg-indigo-50 dark:bg-white/5 text-slate-400">
+            <Package className="w-8 h-8" />
           </div>
-          <div className="space-y-1 max-w-sm mx-auto">
-            <h3 className="font-display font-extrabold text-lg text-brand-primary dark:text-white">
+          <div className="space-y-1.5 max-w-sm mx-auto">
+            <h3 className="font-display font-extrabold text-xl text-brand-primary dark:text-white">
               No Active Orders
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               When you place an order, live sub-15 minute tracking and real-time merchant dispatch updates will appear right here.
             </p>
           </div>
-          <div>
+          <div className="pt-2">
             <Link to="/products">
-              <Button variant="outline" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
+              <Button variant="gradient" size="md" rightIcon={<ArrowRight className="w-4 h-4" />}>
                 Explore Product Catalog
               </Button>
             </Link>
           </div>
         </motion.div>
-
-        {/* ── 3. QUICK ACTION TILES ────────────────────────────────────── */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Product Catalog', icon: Search, href: '/products', color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-50/90 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/40', desc: 'Shop items directly' },
-            { label: 'My Orders', icon: ShoppingBag, href: '/orders', color: 'text-rose-600 dark:text-rose-400 bg-rose-50/90 dark:bg-rose-950/60 border border-rose-100 dark:border-rose-800/40', desc: 'Order history & receipts' },
-            { label: 'Saved Addresses', icon: MapPin, href: '/profile', color: 'text-cyan-600 dark:text-cyan-400 bg-cyan-50/90 dark:bg-cyan-950/60 border border-cyan-100 dark:border-cyan-800/40', desc: 'Home, office & pins' },
-            { label: 'Account Profile', icon: User, href: '/profile', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50/90 dark:bg-emerald-950/60 border border-emerald-100 dark:border-emerald-800/40', desc: 'Settings & security' },
-          ].map(({ label, icon: Icon, href, color, desc }) => (
-            <Link key={label} to={href}>
-              <motion.div
-                whileHover={{ y: -4, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="p-5 rounded-2xl bg-white dark:bg-brand-darkSurface border border-indigo-100/60 dark:border-white/10 shadow-lg space-y-3 group cursor-pointer"
-              >
-                <div className={`p-3 rounded-xl w-fit ${color} group-hover:scale-110 transition-transform`}>
-                  <Icon className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-brand-primary dark:text-white group-hover:text-brand-secondary dark:group-hover:text-brand-rose transition-colors">
-                    {label}
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{desc}</p>
-                </div>
-              </motion.div>
-            </Link>
-          ))}
-        </div>
 
       </Container>
     </div>
