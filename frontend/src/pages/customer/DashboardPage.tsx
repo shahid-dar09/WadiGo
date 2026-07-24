@@ -121,10 +121,10 @@ export const DashboardPage: React.FC = () => {
         {/* ── 3. QUICK ACTION TILES ────────────────────────────────────── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Product Catalog', icon: Search, href: '/products', color: 'text-brand-violet bg-indigo-50 dark:bg-brand-violet/10', desc: 'Shop items directly' },
-            { label: 'My Orders', icon: ShoppingBag, href: '/orders', color: 'text-brand-rose bg-rose-50 dark:bg-brand-rose/10', desc: 'Order history & receipts' },
-            { label: 'Saved Addresses', icon: MapPin, href: '/profile', color: 'text-brand-teal bg-teal-50 dark:bg-brand-teal/10', desc: 'Home, office & pins' },
-            { label: 'Account Profile', icon: User, href: '/profile', color: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/20', desc: 'Settings & security' },
+            { label: 'Product Catalog', icon: Search, href: '/products', color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-50/90 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/40', desc: 'Shop items directly' },
+            { label: 'My Orders', icon: ShoppingBag, href: '/orders', color: 'text-rose-600 dark:text-rose-400 bg-rose-50/90 dark:bg-rose-950/60 border border-rose-100 dark:border-rose-800/40', desc: 'Order history & receipts' },
+            { label: 'Saved Addresses', icon: MapPin, href: '/profile', color: 'text-cyan-600 dark:text-cyan-400 bg-cyan-50/90 dark:bg-cyan-950/60 border border-cyan-100 dark:border-cyan-800/40', desc: 'Home, office & pins' },
+            { label: 'Account Profile', icon: User, href: '/profile', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50/90 dark:bg-emerald-950/60 border border-emerald-100 dark:border-emerald-800/40', desc: 'Settings & security' },
           ].map(({ label, icon: Icon, href, color, desc }) => (
             <Link key={label} to={href}>
               <motion.div

@@ -1,17 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, ShoppingBag, MapPin, Zap } from 'lucide-react';
+import { Sun, Moon, ShoppingBag, MapPin, Zap, LogOut } from 'lucide-react';
 import { useThemeStore } from '../../store/themeStore';
 import { useAuthStore } from '../../store/authStore';
 import { useCartStore } from '../../store/cartStore';
 
 export const CustomerHeader: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useThemeStore();
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { openCart, getTotalItems, selectedAddress } = useCartStore();
+  const navigate = useNavigate();
 
   const totalCartCount = getTotalItems();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/auth/login');
+  };
 
   return (
     <header className="sticky top-0 z-20 h-16 bg-white/90 dark:bg-brand-darkSurface/90 backdrop-blur-md border-b border-indigo-100/70 dark:border-white/10 px-4 sm:px-8 flex items-center justify-between gap-4">
@@ -31,14 +37,14 @@ export const CustomerHeader: React.FC = () => {
         {/* Delivery Location Pill */}
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-50/80 dark:bg-white/5 border border-indigo-100 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200">
           <MapPin className="w-4 h-4 text-brand-secondary dark:text-brand-rose shrink-0" />
-          <span className="truncate max-w-[180px] sm:max-w-xs">
+          <span className="truncate max-w-[150px] sm:max-w-xs">
             {selectedAddress ? `${selectedAddress.label}: ${selectedAddress.city}` : 'Select Delivery Location'}
           </span>
         </div>
       </div>
 
-      {/* ── RIGHT CONTROLS: Cart, Theme Toggle, Customer Name ───────────── */}
-      <div className="flex items-center gap-2.5">
+      {/* ── RIGHT CONTROLS: Cart, Theme Toggle, Customer Name, Mobile Logout ───────────── */}
+      <div className="flex items-center gap-2 sm:gap-2.5">
         
         {/* Shopping Cart Button */}
         <motion.button
@@ -77,15 +83,25 @@ export const CustomerHeader: React.FC = () => {
           </AnimatePresence>
         </motion.button>
 
+        {/* Mobile & Header Sign Out Button */}
+        <button
+          onClick={handleLogout}
+          className="p-2.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-100 transition-colors flex items-center gap-1.5 text-xs font-bold"
+          title="Sign Out"
+        >
+          <LogOut className="w-4 h-4 text-red-500" />
+          <span className="hidden sm:inline">Sign Out</span>
+        </button>
+
         {/* Customer Name Tag */}
-        <div className="flex items-center gap-2 pl-1">
+        <div className="hidden sm:flex items-center gap-2 pl-1">
           <div
             className="w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs text-white shadow-sm"
             style={{ background: 'linear-gradient(135deg, #7C3AED, #F43F5E)' }}
           >
             {user?.name ? user.name[0].toUpperCase() : 'U'}
           </div>
-          <span className="hidden sm:inline font-bold text-xs text-brand-primary dark:text-white">
+          <span className="font-bold text-xs text-brand-primary dark:text-white truncate max-w-[120px]">
             {user?.name || 'Customer'}
           </span>
         </div>

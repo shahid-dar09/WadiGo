@@ -80,11 +80,11 @@ export const CustomerSidebar: React.FC = () => {
               to={href}
               className={`flex items-center gap-3 px-3.5 py-3 rounded-2xl text-xs font-bold transition-all duration-200 ${
                 isActive
-                  ? 'bg-brand-primary dark:bg-white text-white dark:text-slate-900 shadow-md shadow-indigo-900/10'
+                  ? 'bg-brand-primary dark:bg-gradient-to-r dark:from-brand-rose dark:to-brand-violet text-white shadow-md shadow-indigo-900/20'
                   : 'text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-white/5 hover:text-brand-secondary dark:hover:text-brand-rose'
               }`}
             >
-              <Icon className={`w-4 h-4 ${isActive ? 'text-white dark:text-slate-900' : 'text-slate-400'}`} />
+              <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
               <span>{label}</span>
             </Link>
           );
@@ -92,7 +92,7 @@ export const CustomerSidebar: React.FC = () => {
       </nav>
 
       {/* ── 3. USER PROFILE & SIGN OUT FOOTER ────────────────────────── */}
-      <div className="p-4 border-t border-indigo-50 dark:border-white/5 bg-slate-50/50 dark:bg-white/3 space-y-3">
+      <div className="p-4 border-t border-indigo-50 dark:border-white/5 bg-slate-50 dark:bg-slate-900/60 space-y-3">
         {/* User Card */}
         <div className="flex items-center gap-3 px-2 py-1">
           <div
@@ -102,10 +102,10 @@ export const CustomerSidebar: React.FC = () => {
             {user?.name ? user.name[0].toUpperCase() : 'U'}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-bold text-xs text-brand-primary dark:text-white truncate">
+            <p className="font-bold text-xs text-slate-900 dark:text-white truncate">
               {user?.name || 'Customer Account'}
             </p>
-            <p className="text-[10px] text-slate-400 truncate">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
               {user?.email || 'customer@wadigo.com'}
             </p>
           </div>
@@ -114,7 +114,7 @@ export const CustomerSidebar: React.FC = () => {
         {/* Sign Out Button */}
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-red-600 hover:border-red-200 dark:hover:border-red-800/40 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-red-200 dark:border-red-900/40 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50/50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-950/60 transition-all"
         >
           <LogOut className="w-4 h-4 text-red-500" />
           <span>Sign Out</span>
