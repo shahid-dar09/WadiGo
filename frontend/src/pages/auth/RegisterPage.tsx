@@ -97,7 +97,7 @@ export const RegisterPage: React.FC = () => {
     setErrorMessage(null);
     try {
       await verifyOtp({ email: userEmail, otp: data.otp, purpose: 'REGISTRATION' });
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: any) {
       setErrorMessage(err.message || 'Invalid or expired OTP code.');
     }

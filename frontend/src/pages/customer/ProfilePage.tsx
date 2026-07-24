@@ -1,0 +1,294 @@
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  User, Mail, Phone, MapPin, Plus, Trash2, CheckCircle2,
+  ShieldCheck, Lock, Building, Home, Sparkles
+} from 'lucide-react';
+import { Container } from '../../components/ui/Container';
+import { Button } from '../../components/ui/Button';
+import { useAuthStore } from '../../store/authStore';
+import { useCartStore } from '../../store/cartStore';
+
+export const ProfilePage: React.FC = () => {
+  const { user } = useAuthStore();
+  const { addresses, addAddress, setSelectedAddress, selectedAddress } = useCartStore();
+
+  const [showAddAddress, setShowAddAddress] = useState(false);
+  const [newLabel, setNewLabel]               = useState<'Home' | 'Work' | 'Other'>('Home');
+  const [newAddressLine, setNewAddressLine]   = useState('');
+  const [newCity, setNewCity]                 = useState('Bengaluru');
+  const [newLandmark, setNewLandmark]         = useState('');
+
+  const [savedBanner, setSavedBanner]       = useState(false);
+
+  const handleCreateAddress = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newAddressLine.trim()) return;
+
+    addAddress({
+      label: newLabel,
+      addressLine: newAddressLine,
+      city: newCity,
+      landmark: newLandmark,
+    });
+
+    setNewAddressLine('');
+    setNewLandmark('');
+    setShowAddAddress(false);
+    setSavedBanner(true);
+    setTimeout(() => setSavedBanner(false), 3000);
+  };
+
+  return (
+    <div className="min-h-screen page-bg py-8">
+      <Container size="lg" className="space-y-8">
+
+        {/* ── HEADER ──────────────────────────────────────────────────── */}
+        <div>
+          <span className="section-badge text-xs mb-1">
+            <User className="w-3.5 h-3.5" />
+            Customer Account & Addresses
+          </span>
+          <h1 className="font-display font-extrabold text-3xl sm:text-4xl text-brand-primary dark:text-white">
+            Profile & Saved Addresses
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Manage your personal contact details, security, and hyperlocal delivery pins.
+          </p>
+        </div>
+
+        {savedBanner && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-semibold flex items-center gap-2"
+          >
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+            <span>New delivery address saved successfully!</span>
+          </motion.div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
+
+          {/* ── LEFT: USER PROFILE DETAILS ────────────────────────────── */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="p-6 rounded-3xl bg-white dark:bg-brand-darkSurface border border-indigo-100/70 dark:border-white/10 shadow-xl space-y-5">
+              
+              <div className="flex items-center gap-4 border-b border-indigo-50 dark:border-white/5 pb-5">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center font-extrabold text-xl text-white shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #7C3AED, #F43F5E)' }}
+                >
+                  {user?.name ? user.name[0].toUpperCase() : 'U'}
+                </div>
+                <div>
+                  <h3 className="font-display font-extrabold text-lg text-brand-primary dark:text-white">
+                    {user?.name || 'Customer Name'}
+                  </h3>
+                  <p className="text-xs text-slate-400">Verified WadiGo Customer</p>
+                  <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 dark:bg-white/10 text-indigo-700 dark:text-indigo-300">
+                    2-Step Email OTP Security Active
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Full Name</label>
+                  <div className="relative">
+                    <User className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
+                    <input
+                      type="text"
+                      readOnly
+                      value={user?.name || 'John Doe'}
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Email Address</label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
+                    <input
+                      type="email"
+                      readOnly
+                      value={user?.email || 'customer@example.com'}
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Phone Number</label>
+                  <div className="relative">
+                    <Phone className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
+                    <input
+                      type="text"
+                      readOnly
+                      value={user?.phone || '+91 9876543210'}
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-white/5 text-xs text-slate-900 dark:text-white font-medium"
+                    />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* ── RIGHT: SAVED ADDRESSES MANAGER ────────────────────────── */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-brand-darkSurface border border-indigo-100/70 dark:border-white/10 shadow-xl space-y-6">
+              
+              <div className="flex items-center justify-between border-b border-indigo-50 dark:border-white/5 pb-4">
+                <div>
+                  <h3 className="font-display font-extrabold text-xl text-brand-primary dark:text-white">
+                    Delivery Addresses
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    Select your active location for sub-15 minute store matching.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setShowAddAddress(!showAddAddress)}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold text-white flex items-center gap-1.5 shadow-md"
+                  style={{ background: 'linear-gradient(135deg, #4C1D95, #7C3AED)' }}
+                >
+                  <Plus className="w-4 h-4" /> Add New Address
+                </button>
+              </div>
+
+              {/* Add Address Form Accordion */}
+              <AnimatePresence>
+                {showAddAddress && (
+                  <motion.form
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    onSubmit={handleCreateAddress}
+                    className="p-5 rounded-2xl bg-indigo-50/60 dark:bg-white/4 border border-indigo-100 dark:border-white/10 space-y-4 overflow-hidden"
+                  >
+                    <h4 className="font-bold text-sm text-brand-primary dark:text-white">Add Delivery Location</h4>
+
+                    <div className="grid grid-cols-3 gap-2">
+                      {(['Home', 'Work', 'Other'] as const).map((label) => (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={() => setNewLabel(label)}
+                          className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                            newLabel === label
+                              ? 'bg-brand-primary dark:bg-white text-white dark:text-slate-900 border-brand-primary'
+                              : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10'
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Flat / House No / Building / Street</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Flat 402, Sunshine Heights, 12th Main"
+                        value={newAddressLine}
+                        onChange={(e) => setNewAddressLine(e.target.value)}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">City</label>
+                        <input
+                          type="text"
+                          required
+                          value={newCity}
+                          onChange={(e) => setNewCity(e.target.value)}
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Landmark (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Near Metro Station"
+                          value={newLandmark}
+                          onChange={(e) => setNewLandmark(e.target.value)}
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setShowAddAddress(false)}
+                        className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-700"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-emerald-500 hover:bg-emerald-600 transition-colors"
+                      >
+                        Save Location
+                      </button>
+                    </div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+
+              {/* Saved Addresses List */}
+              <div className="space-y-3">
+                {addresses.map((addr) => {
+                  const isSelected = selectedAddress?.id === addr.id;
+                  return (
+                    <div
+                      key={addr.id}
+                      onClick={() => setSelectedAddress(addr)}
+                      className={`p-4 rounded-2xl border cursor-pointer transition-all ${
+                        isSelected
+                          ? 'border-brand-secondary bg-indigo-50/50 dark:border-brand-rose dark:bg-brand-rose/10 shadow-md'
+                          : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/4'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-2.5">
+                          <div className={`p-2 rounded-xl ${isSelected ? 'bg-brand-secondary dark:bg-brand-rose text-white' : 'bg-slate-200 dark:bg-white/10 text-slate-500'}`}>
+                            <MapPin className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-sm text-brand-primary dark:text-white">{addr.label}</span>
+                              {isSelected && (
+                                <span className="px-2 py-0.5 rounded-full bg-brand-secondary dark:bg-brand-rose text-[9px] font-bold text-white">
+                                  Active Location
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                              {addr.addressLine}, {addr.city} {addr.landmark && `(${addr.landmark})`}
+                            </p>
+                          </div>
+                        </div>
+
+                        {isSelected && <CheckCircle2 className="w-5 h-5 text-brand-secondary dark:text-brand-rose shrink-0" />}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </Container>
+    </div>
+  );
+};

@@ -66,22 +66,8 @@
   ```
 - **Error Handling**: Use custom `ApiError` class with HTTP status code and clean message. Never leak stack traces or internal raw SQL errors in production.
 
----
 
-## 5. UI/UX Design System Guidelines
-- **Color Palette**:
-  - Primary (Slate/Navy): `#0F172A`
-  - Secondary (Royal Blue): `#2563EB`
-  - Accent (Vibrant Orange): `#F97316`
-  - Success (Emerald Green): `#22C55E`
-  - Background (Light): `#F8FAFC`
-  - Surface/Card Dark: `#1E293B`
-- **Typography**: Inter / Poppins via Google Fonts.
-- **Visual Design**: Premium glassmorphism, responsive mobile-first layouts, crisp micro-interactions, dark mode readiness.
-
----
-
-## 6. Security & Database Rules
+## 5. Security & Database Rules
 - Use local XAMPP MySQL during development: `DATABASE_URL=mysql://root:@localhost:3306/wadigo_db`
 - Every table must possess:
   - Primary Key (`id` String UUID or CUID)

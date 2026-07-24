@@ -61,7 +61,7 @@ export const LoginPage: React.FC = () => {
     setErrorMessage(null);
     try {
       await login(data);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: any) {
       setErrorMessage(err.message || 'Login failed. Please check your credentials.');
     }
