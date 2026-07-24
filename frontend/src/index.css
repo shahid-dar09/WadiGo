@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased;
+    @apply selection:bg-brand-secondary selection:text-white;
+    @apply bg-brand-background text-brand-primary;
+    @apply dark:bg-brand-darkBg dark:text-white;
+    font-family: 'Inter', sans-serif;
+  }
+
+  * {
+    @apply border-slate-200 dark:border-slate-800;
+  }
+}
+
+/* ─── Light Mode Glass Panel ───────────────────────────────────────────── */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.glass-panel:hover {
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+/* ─── Dark Mode Glass Panel ────────────────────────────────────────────── */
+.dark .glass-panel {
+  background: rgba(22, 22, 31, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(244, 63, 94, 0.15);
+}
+
+.dark .glass-panel:hover {
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* ─── Navbar Glass ─────────────────────────────────────────────────────── */
+.glass-nav {
+  background: rgba(245, 243, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.12);
+}
+
+.dark .glass-nav {
+  background: rgba(10, 10, 15, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(244, 63, 94, 0.12);
+}
+
+/* ─── Gradient Text ────────────────────────────────────────────────────── */
+.gradient-text-indigo {
+  background: linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #EAB308 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text-rose {
+  background: linear-gradient(135deg, #F43F5E 0%, #A855F7 60%, #22D3EE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-hero {
+  background: linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #EAB308 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text-hero {
+  background: linear-gradient(135deg, #F43F5E 0%, #C026D3 50%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Mesh Background ──────────────────────────────────────────────────── */
+/* ─── Single adaptive background ───────────────────────────────────────── */
+.page-bg {
+  background-color: #F5F3FF;
+  background-image:
+    radial-gradient(at 30% 10%, rgba(196, 181, 253, 0.45) 0px, transparent 55%),
+    radial-gradient(at 90% 5%,  rgba(233, 213, 255, 0.30) 0px, transparent 45%),
+    radial-gradient(at 5%  60%, rgba(245, 243, 255, 0.50) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(254, 249, 195, 0.25) 0px, transparent 45%);
+}
+
+.dark .page-bg {
+  background-color: #0A0A0F;
+  background-image:
+    radial-gradient(at 30% 10%, rgba(244, 63,  94,  0.10) 0px, transparent 55%),
+    radial-gradient(at 90% 5%,  rgba(139, 92,  246, 0.08) 0px, transparent 45%),
+    radial-gradient(at 5%  65%, rgba(34,  211, 238, 0.05) 0px, transparent 55%),
+    radial-gradient(at 75% 85%, rgba(168, 85,  247, 0.07) 0px, transparent 50%);
+}
+
+/* Keep aliases for backward compat */
+.bg-mesh-light { background-color: #F5F3FF; }
+.bg-mesh-dark  { background-color: #0A0A0F; }
+
+/* ─── Glow Orb ─────────────────────────────────────────────────────────── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(45px);
+  opacity: 0.35;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.orb-violet {
+  background: radial-gradient(circle, #7C3AED, #A855F7);
+}
+
+.orb-gold {
+  background: radial-gradient(circle, #EAB308, #F59E0B);
+}
+
+.orb-rose {
+  background: radial-gradient(circle, #F43F5E, #FB7185);
+}
+
+.orb-teal {
+  background: radial-gradient(circle, #22D3EE, #06B6D4);
+}
+
+.orb-purple {
+  background: radial-gradient(circle, #8B5CF6, #A78BFA);
+}
+
+/* ─── Custom Scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.35);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.55);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(244, 63, 94, 0.35);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 63, 94, 0.55);
+}
+
+/* ─── Input Focus Glow ─────────────────────────────────────────────────── */
+.input-glow:focus {
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+  border-color: #7C3AED;
+  outline: none;
+}
+
+.dark .input-glow:focus {
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2);
+  border-color: #F43F5E;
+  outline: none;
+}
+
+/* ─── Animated Gradient Button ─────────────────────────────────────────── */
+.btn-gradient-indigo {
+  background: linear-gradient(135deg, #4C1D95, #7C3AED, #A855F7);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+  color: white;
+  border: none;
+}
+
+.btn-gradient-indigo:hover {
+  background-size: 100% 100%;
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.45);
+}
+
+.dark .btn-gradient-rose {
+  background: linear-gradient(135deg, #BE123C, #F43F5E, #A855F7);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+  color: white;
+  border: none;
+}
+
+.dark .btn-gradient-rose:hover {
+  box-shadow: 0 8px 24px rgba(244, 63, 94, 0.45);
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+/* ─── Skeleton Shimmer ─────────────────────────────────────────────────── */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.4) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s linear infinite;
+}
+
+/* ─── Divider ──────────────────────────────────────────────────────────── */
+.divider-gradient {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,58,237,0.3), transparent);
+}
+
+.dark .divider-gradient {
+  background: linear-gradient(90deg, transparent, rgba(244,63,94,0.2), transparent);
+}
+
+/* ─── Section Badge ────────────────────────────────────────────────────── */
+.section-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  background: rgba(124, 58, 237, 0.10);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  color: #7C3AED;
+}
+
+.dark .section-badge {
+  background: rgba(244, 63, 94, 0.10);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  color: #FB7185;
+}
+
+/* ─── Step Number ──────────────────────────────────────────────────────── */
+.step-number {
+  @apply w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-lg;
+  background: linear-gradient(135deg, #7C3AED, #A855F7);
+  color: white;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+}
+
+.dark .step-number {
+  background: linear-gradient(135deg, #F43F5E, #8B5CF6);
+  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.35);
+}
+
+/* ─── Card Hover Border ────────────────────────────────────────────────── */
+.card-hover-violet {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-hover-violet:hover {
+  border-color: rgba(124, 58, 237, 0.35);
+  box-shadow: 0 12px 40px rgba(124, 58, 237, 0.15);
+  transform: translateY(-4px);
+}
+
+.dark .card-hover-violet:hover {
+  border-color: rgba(244, 63, 94, 0.3);
+  box-shadow: 0 12px 40px rgba(244, 63, 94, 0.12);
+}
