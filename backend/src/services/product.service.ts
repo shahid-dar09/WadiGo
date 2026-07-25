@@ -100,15 +100,16 @@ export class ProductService {
 
   static async createCategory(data: {
     name: string;
-    slug: string;
+    slug?: string;
     description?: string;
     imageUrl?: string;
     parentId?: string;
   }) {
-    const existing = await CategoryRepository.findBySlug(data.slug);
+    const slug = data.slug || (data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now().toString(36));
+    const existing = await CategoryRepository.findBySlug(slug);
     if (existing) {
       throw ApiError.badRequest('A category with this slug already exists');
     }
-    return CategoryRepository.create(data);
+    return CategoryRepository.create({ ...data, slug });
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ShieldCheck, LayoutDashboard, Users, Store, ShoppingBag,
+  ShieldCheck, LayoutDashboard, Users, Store, ShoppingBag, Package,
   LogOut, Sun, Moon, ChevronLeft, ChevronRight, Settings
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
@@ -12,6 +12,7 @@ const ADMIN_LINKS = [
   { label: 'Overview', href: '/admin', icon: LayoutDashboard },
   { label: 'User Governance', href: '/admin/users', icon: Users },
   { label: 'Merchant Governance', href: '/admin/merchants', icon: Store },
+  { label: 'Catalog Management', href: '/admin/products', icon: Package },
   { label: 'All Orders', href: '/admin/orders', icon: ShoppingBag },
 ];
 

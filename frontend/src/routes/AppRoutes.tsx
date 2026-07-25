@@ -31,6 +31,7 @@ import { DeliveryDashboardPage } from '../pages/delivery/DeliveryDashboardPage';
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage';
 import { AdminMerchantsPage } from '../pages/admin/AdminMerchantsPage';
+import { AdminProductsPage } from '../pages/admin/AdminProductsPage';
 import { AdminOrdersPage } from '../pages/admin/AdminOrdersPage';
 
 import { ProtectedRoute } from './ProtectedRoute';
@@ -86,6 +87,7 @@ export const AppRoutes: React.FC = () => {
           <Route index element={<AdminDashboardPage />} />
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="merchants" element={<AdminMerchantsPage />} />
+          <Route path="products" element={<AdminProductsPage />} />
           <Route path="orders" element={<AdminOrdersPage />} />
         </Route>
       </Route>

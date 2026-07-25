@@ -61,7 +61,7 @@ export const LoginPage: React.FC = () => {
   const onSubmit = async (data: LoginFormInput) => {
     setErrorMessage(null);
     try {
-      await login(data);
+      await login({ ...data, requiredRole: 'CUSTOMER' });
       navigate('/dashboard');
     } catch (err: any) {
       setErrorMessage(err.message || 'Login failed. Please check your credentials.');

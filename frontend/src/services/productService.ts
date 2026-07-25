@@ -88,4 +88,23 @@ export const productService = {
   }): Promise<ApiResponse<ProductListItem>> {
     return api.post('/products', data);
   },
+
+  async updateProduct(id: string, data: Partial<{
+    categoryId: string;
+    name: string;
+    unit: string;
+    description: string;
+    imageUrl: string;
+    isActive: boolean;
+  }>): Promise<ApiResponse<ProductListItem>> {
+    return api.patch(`/products/${id}`, data);
+  },
+
+  async createCategory(data: {
+    name: string;
+    description?: string;
+    imageUrl?: string;
+  }): Promise<ApiResponse<CategoryItem>> {
+    return api.post('/categories', data);
+  },
 };
