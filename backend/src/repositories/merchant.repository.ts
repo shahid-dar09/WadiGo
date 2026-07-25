@@ -116,21 +116,36 @@ export class MerchantRepository {
     stockQuantity: number;
     isAvailable: boolean;
   }) {
-    return prisma.inventoryItem.upsert({
+    const existing = await prisma.inventoryItem.findFirst({
       where: {
-        storeId_productId_variantId: {
-          storeId: data.storeId,
-          productId: data.productId,
-          variantId: data.variantId ?? null,
+        storeId: data.storeId,
+        productId: data.productId,
+        variantId: data.variantId ?? null,
+      },
+    });
+
+    if (existing) {
+      return prisma.inventoryItem.update({
+        where: { id: existing.id },
+        data: {
+          price: data.price,
+          salePrice: data.salePrice,
+          stockQuantity: data.stockQuantity,
+          isAvailable: data.isAvailable,
         },
-      } as any,
-      update: {
+      });
+    }
+
+    return prisma.inventoryItem.create({
+      data: {
+        storeId: data.storeId,
+        productId: data.productId,
+        variantId: data.variantId ?? null,
         price: data.price,
         salePrice: data.salePrice,
         stockQuantity: data.stockQuantity,
         isAvailable: data.isAvailable,
       },
-      create: data,
     });
   }
 
