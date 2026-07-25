@@ -279,6 +279,7 @@ export const LoginPage: React.FC = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
                 onSubmit={handleSubmit(onSubmit)}
+                autoComplete="off"
                 className="space-y-5"
               >
                 {/* Email */}
@@ -290,6 +291,7 @@ export const LoginPage: React.FC = () => {
                     <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                     <input
                       type="email"
+                      autoComplete="off"
                       placeholder="name@example.com"
                       {...register('email')}
                       className={`input-glow w-full pl-10 pr-4 py-3 rounded-xl border text-sm bg-slate-50 dark:bg-white/5 text-brand-primary dark:text-white placeholder:text-slate-400 transition-all duration-200 ${

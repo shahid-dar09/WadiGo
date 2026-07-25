@@ -212,12 +212,12 @@ export const DeliveryAuthPage: React.FC = () => {
 
               {/* LOGIN FORM */}
               {isLogin && (
-                <form onSubmit={handleLoginSubmit} className="space-y-4">
+                <form onSubmit={handleLoginSubmit} autoComplete="off" className="space-y-4">
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
                     <div className="relative">
                       <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input name="email" required type="email" placeholder="partner@wadigo.com" className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
+                      <input name="email" required type="email" autoComplete="off" placeholder="partner@wadigo.com" className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
                     </div>
                   </div>
 
@@ -225,7 +225,7 @@ export const DeliveryAuthPage: React.FC = () => {
                     <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Password</label>
                     <div className="relative">
                       <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input name="password" required type="password" placeholder="••••••••" className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
+                      <input name="password" required type="password" autoComplete="current-password" placeholder="••••••••" className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
                     </div>
                   </div>
 
@@ -239,12 +239,12 @@ export const DeliveryAuthPage: React.FC = () => {
 
               {/* REGISTER FORM */}
               {!isLogin && step === 1 && (
-                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-3">
+                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} autoComplete="off" className="space-y-3">
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
                     <div className="relative">
                       <User className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
-                      <input {...registerForm.register('name')} placeholder="Full Name (e.g. Shahid Dar)" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
+                      <input {...registerForm.register('name')} autoComplete="off" placeholder="Full Name (e.g. Shahid Dar)" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
                     </div>
                   </div>
 
@@ -252,7 +252,7 @@ export const DeliveryAuthPage: React.FC = () => {
                     <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
                     <div className="relative">
                       <Mail className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
-                      <input type="email" {...registerForm.register('email')} placeholder="partner@wadigo.com" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
+                      <input type="email" {...registerForm.register('email')} autoComplete="off" placeholder="partner@wadigo.com" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
                     </div>
                   </div>
 
@@ -260,7 +260,7 @@ export const DeliveryAuthPage: React.FC = () => {
                     <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
                     <div className="relative">
                       <Phone className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
-                      <input type="tel" {...registerForm.register('phone')} placeholder="+91 98765 43210" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
+                      <input type="tel" {...registerForm.register('phone')} autoComplete="off" placeholder="+91 98765 43210" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
                     </div>
                   </div>
 
@@ -268,7 +268,7 @@ export const DeliveryAuthPage: React.FC = () => {
                     <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Password</label>
                     <div className="relative">
                       <Lock className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
-                      <input type="password" {...registerForm.register('password')} placeholder="Min 8 chars, 1 uppercase, 1 number" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
+                      <input type="password" {...registerForm.register('password')} autoComplete="new-password" placeholder="Min 8 chars, 1 uppercase, 1 number" className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500" />
                     </div>
                   </div>
 

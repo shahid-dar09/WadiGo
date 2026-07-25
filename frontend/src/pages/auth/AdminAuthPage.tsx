@@ -143,12 +143,12 @@ export const AdminAuthPage: React.FC = () => {
                 </div>
               )}
 
-              <form onSubmit={handleLoginSubmit} className="space-y-4">
+              <form onSubmit={handleLoginSubmit} autoComplete="off" className="space-y-4">
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-300">Admin Email</label>
                   <div className="relative">
                     <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input name="email" required type="email" placeholder="admin@wadigo.com"
+                    <input name="email" required type="email" autoComplete="off" placeholder="admin@wadigo.com"
                       className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-800 bg-slate-900 text-xs text-white focus:outline-none focus:border-indigo-500" />
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export const AdminAuthPage: React.FC = () => {
                   <label className="text-xs font-semibold text-slate-300">Master Password</label>
                   <div className="relative">
                     <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input name="password" required type={showPassword ? 'text' : 'password'} placeholder="••••••••"
+                    <input name="password" required type={showPassword ? 'text' : 'password'} autoComplete="current-password" placeholder="••••••••"
                       className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-800 bg-slate-900 text-xs text-white focus:outline-none focus:border-indigo-500" />
                     <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
