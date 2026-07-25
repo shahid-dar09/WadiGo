@@ -133,7 +133,7 @@ export class AuthService {
 
     const roleNames = user.roles.map((r) => r.role.name);
 
-    if (requiredRole && !roleNames.includes(requiredRole as RoleName) && !roleNames.includes(RoleName.ADMIN)) {
+    if (requiredRole && !roleNames.includes(requiredRole as RoleName)) {
       throw ApiError.forbidden(`Access denied. Account is not registered as a ${requiredRole.replace('_', ' ').toLowerCase()}.`);
     }
 

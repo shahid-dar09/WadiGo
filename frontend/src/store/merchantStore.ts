@@ -37,7 +37,7 @@ export const useMerchantStore = create<MerchantState>((set, get) => ({
       const firstStore = profile.stores?.[0] ?? null;
       set({ profile, selectedStore: firstStore, isLoading: false });
     } catch (err: any) {
-      set({ isLoading: false, error: err.message });
+      set({ profile: null, selectedStore: null, isLoading: false, error: err.message });
     }
   },
 
