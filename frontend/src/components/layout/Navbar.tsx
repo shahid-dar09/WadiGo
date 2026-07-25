@@ -79,7 +79,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-[68px] gap-4">
 
           {/* Logo */}
-          <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2.5 group shrink-0">
+          <Link to={isAuthenticated && user?.roles?.includes('CUSTOMER') ? "/dashboard" : "/"} className="flex items-center gap-2.5 group shrink-0">
             <motion.div
               whileHover={{ scale: 1.08, rotate: 5 }}
               transition={{ type: 'spring', stiffness: 400, damping: 15 }}
@@ -113,7 +113,7 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-1">
-            {isAuthenticated ? (
+            {isAuthenticated && !isLanding && user?.roles?.includes('CUSTOMER') ? (
               CUSTOMER_LINKS.map(({ label, href }) => {
                 const active = location.pathname === href;
                 return (
@@ -130,7 +130,7 @@ export const Navbar: React.FC = () => {
                   </Link>
                 );
               })
-            ) : isLanding ? (
+            ) : (
               <>
                 {LANDING_LINKS.map(({ label, href }) => (
                   <a
@@ -185,13 +185,13 @@ export const Navbar: React.FC = () => {
                   </AnimatePresence>
                 </div>
               </>
-            ) : null}
+            )}
           </nav>
 
           {/* Right Controls */}
           <div className="flex items-center gap-2">
             {/* Shopping Cart */}
-            {isAuthenticated && !isLanding && (
+            {isAuthenticated && !isLanding && user?.roles?.includes('CUSTOMER') && (
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -234,7 +234,11 @@ export const Navbar: React.FC = () => {
               <AnimatePresence mode="wait">
                 {isAuthenticated && user ? (
                   <div className="flex items-center gap-2">
-                    <Link to="/profile">
+                    <Link to={
+                      user.roles?.includes('ADMIN') ? '/admin' :
+                      user.roles?.includes('MERCHANT') ? '/merchant' :
+                      user.roles?.includes('DELIVERY_PARTNER') ? '/delivery' : '/profile'
+                    }>
                       <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-50 dark:bg-white/5 border border-indigo-100 dark:border-white/10 text-xs font-semibold text-brand-primary dark:text-slate-200">
                         <div className="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] text-white" style={{ background: 'linear-gradient(135deg, #7C3AED, #F43F5E)' }}>
                           {user.name ? user.name[0].toUpperCase() : 'U'}

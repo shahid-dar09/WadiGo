@@ -104,7 +104,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   checkAuth: async () => {
     const token = localStorage.getItem('wadigo_access_token');
-    if (!token) return;
+    if (!token) {
+      set({ user: null, isAuthenticated: false, isLoading: false });
+      return;
+    }
 
     set({ isLoading: true });
     try {
