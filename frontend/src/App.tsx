@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { AppRoutes } from './routes/AppRoutes';
 import { useThemeStore } from './store/themeStore';
+import { useAuthStore } from './store/authStore';
 import { PageTransitionLoader } from './components/ui/PageTransitionLoader';
 
 /* Scroll to top on every route change */
@@ -15,6 +16,11 @@ const ScrollToTop: React.FC = () => {
 
 export const App: React.FC = () => {
   const { isDarkMode } = useThemeStore();
+  const { checkAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   useEffect(() => {
     if (isDarkMode) {

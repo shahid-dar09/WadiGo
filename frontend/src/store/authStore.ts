@@ -105,7 +105,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   checkAuth: async () => {
     const token = localStorage.getItem('wadigo_access_token');
     if (!token) {
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      set({ user: null, accessToken: null, isAuthenticated: false, isLoading: false });
       return;
     }
 
@@ -114,7 +114,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const response = await authService.getCurrentUser();
       set({ user: response.data, isAuthenticated: true, isLoading: false });
     } catch (_) {
-      get().logout();
+      await get().logout();
+      set({ user: null, accessToken: null, isAuthenticated: false, isLoading: false });
     }
   },
 }));
