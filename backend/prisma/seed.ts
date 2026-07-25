@@ -1,5 +1,6 @@
+/// <reference types="node" />
 import { PrismaClient, RoleName, MerchantStatus } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -22,7 +23,7 @@ async function main() {
 
   // 3. Create Admin User
   const adminRole = await prisma.role.findUnique({ where: { name: RoleName.ADMIN } });
-  const admin = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'admin@wadigo.com' },
     update: {},
     create: {
@@ -166,29 +167,27 @@ async function main() {
       },
     });
 
-    await prisma.inventoryItem.upsert({
-      where: {
-        storeId_productId_variantId: {
+    const existingInventory = await prisma.inventoryItem.findFirst({
+      where: { storeId: store.id, productId: product.id },
+    });
+
+    if (existingInventory) {
+      await prisma.inventoryItem.update({
+        where: { id: existingInventory.id },
+        data: { price: item.price, salePrice: item.salePrice, stockQuantity: 50, isAvailable: true },
+      });
+    } else {
+      await prisma.inventoryItem.create({
+        data: {
           storeId: store.id,
           productId: product.id,
-          variantId: null as any,
+          price: item.price,
+          salePrice: item.salePrice,
+          stockQuantity: 50,
+          isAvailable: true,
         },
-      } as any,
-      update: {
-        price: item.price,
-        salePrice: item.salePrice,
-        stockQuantity: 50,
-        isAvailable: true,
-      },
-      create: {
-        storeId: store.id,
-        productId: product.id,
-        price: item.price,
-        salePrice: item.salePrice,
-        stockQuantity: 50,
-        isAvailable: true,
-      },
-    });
+      });
+    }
   }
 
   console.log('✅ Products & Inventory seeded');
