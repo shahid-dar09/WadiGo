@@ -377,7 +377,7 @@ export const RegisterPage: React.FC = () => {
                         error={!!registerForm.formState.errors.name}
                         inputProps={{
                           type: 'text',
-                          placeholder: 'John Doe',
+                          placeholder: 'Full Name',
                           ...registerForm.register('name'),
                         }}
                       />
