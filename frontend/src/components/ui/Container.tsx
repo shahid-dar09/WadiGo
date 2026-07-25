@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  size?: 'sm' | 'md' | 'lg' | 'full';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
 export const Container: React.FC<ContainerProps> = ({
@@ -14,6 +14,7 @@ export const Container: React.FC<ContainerProps> = ({
     sm: 'max-w-3xl',
     md: 'max-w-5xl',
     lg: 'max-w-7xl',
+    xl: 'max-w-[90rem]',
     full: 'max-w-full',
   };
 

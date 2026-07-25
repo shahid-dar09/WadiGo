@@ -8,11 +8,11 @@ import {
 import { Container } from '../../components/ui/Container';
 import { Button } from '../../components/ui/Button';
 import { useAuthStore } from '../../store/authStore';
-import { useCartStore } from '../../store/cartStore';
+import { useAddressStore } from '../../store/addressStore';
 
 export const DashboardPage: React.FC = () => {
   const { user } = useAuthStore();
-  const { selectedAddress } = useCartStore();
+  const { selectedAddress } = useAddressStore();
   const navigate = useNavigate();
 
   return (

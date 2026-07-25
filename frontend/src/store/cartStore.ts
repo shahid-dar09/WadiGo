@@ -1,118 +1,132 @@
 import { create } from 'zustand';
+import { cartService, CartItemDetail } from '../services/cartService';
 
+// UI-local types still used by CartDrawer
 export interface CartItem {
   id: string;
-  name: string;
-  category: string;
-  price: number;
-  originalPrice?: number;
+  productId: string;
+  productName: string;
+  imageUrl: string | null;
   unit: string;
-  image: string;
-  storeName: string;
-  storeDistance: string;
-  deliveryTime: string;
   quantity: number;
-}
-
-export interface Address {
-  id: string;
-  label: string; // 'Home', 'Work', 'Other'
-  addressLine: string;
-  city: string;
-  landmark?: string;
-  isDefault?: boolean;
+  price: number;
+  storeId?: string;
+  isAvailable: boolean;
 }
 
 interface CartStore {
-  items: CartItem[];
+  items: CartItemDetail[];
   isOpen: boolean;
-  addresses: Address[];
-  selectedAddress: Address | null;
-  paymentMethod: 'upi' | 'card' | 'cod';
-  
-  /* Cart actions */
+  subtotal: number;
+  deliveryFee: number;
+  total: number;
+  isLoading: boolean;
+
+  /* UI actions */
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
-  addItem: (item: Omit<CartItem, 'quantity'>) => void;
-  removeItem: (id: string) => void;
-  updateQuantity: (id: string, delta: number) => void;
-  clearCart: () => void;
-  
-  /* Checkout actions */
-  setSelectedAddress: (address: Address) => void;
-  setPaymentMethod: (method: 'upi' | 'card' | 'cod') => void;
-  addAddress: (address: Omit<Address, 'id'>) => void;
 
-  /* Calculated getters */
+  /* API actions */
+  fetchCart: () => Promise<void>;
+  addItem: (productId: string, quantity?: number, variantId?: string) => Promise<void>;
+  updateQuantity: (itemId: string, quantity: number) => Promise<void>;
+  removeItem: (itemId: string) => Promise<void>;
+  clearCart: () => Promise<void>;
+
+  /* Getters */
   getTotalItems: () => number;
   getSubtotal: () => number;
   getDeliveryFee: () => number;
-  getConvenienceFee: () => number;
   getGrandTotal: () => number;
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
   items: [],
   isOpen: false,
-  addresses: [],
-  selectedAddress: null,
-  paymentMethod: 'upi',
+  subtotal: 0,
+  deliveryFee: 0,
+  total: 0,
+  isLoading: false,
 
   openCart: () => set({ isOpen: true }),
   closeCart: () => set({ isOpen: false }),
   toggleCart: () => set((state) => ({ isOpen: !state.isOpen })),
 
-  addItem: (product) => {
-    set((state) => {
-      const existingIndex = state.items.findIndex((i) => i.id === product.id);
-      if (existingIndex > -1) {
-        const updated = [...state.items];
-        updated[existingIndex].quantity += 1;
-        return { items: updated, isOpen: true };
-      }
-      return { items: [...state.items, { ...product, quantity: 1 }], isOpen: true };
-    });
+  fetchCart: async () => {
+    const token = localStorage.getItem('wadigo_access_token');
+    if (!token) return;
+    set({ isLoading: true });
+    try {
+      const res = await cartService.getCart();
+      set({
+        items: res.data.items,
+        subtotal: res.data.subtotal,
+        deliveryFee: res.data.deliveryFee,
+        total: res.data.total,
+        isLoading: false,
+      });
+    } catch {
+      set({ isLoading: false });
+    }
   },
 
-  removeItem: (id) => set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
-
-  updateQuantity: (id, delta) => {
-    set((state) => {
-      const updated = state.items
-        .map((item) => {
-          if (item.id === id) {
-            const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
-          }
-          return item;
-        })
-        .filter(Boolean) as CartItem[];
-      return { items: updated };
-    });
+  addItem: async (productId, quantity = 1, variantId) => {
+    set({ isLoading: true });
+    try {
+      const res = await cartService.addItem({ productId, quantity, variantId });
+      set({
+        items: res.data.items,
+        subtotal: res.data.subtotal,
+        deliveryFee: res.data.deliveryFee,
+        total: res.data.total,
+        isOpen: true,
+        isLoading: false,
+      });
+    } catch {
+      set({ isLoading: false });
+    }
   },
 
-  clearCart: () => set({ items: [] }),
+  updateQuantity: async (itemId, quantity) => {
+    set({ isLoading: true });
+    try {
+      const res = await cartService.updateItem(itemId, quantity);
+      set({
+        items: res.data.items,
+        subtotal: res.data.subtotal,
+        deliveryFee: res.data.deliveryFee,
+        total: res.data.total,
+        isLoading: false,
+      });
+    } catch {
+      set({ isLoading: false });
+    }
+  },
 
-  setSelectedAddress: (address) => set({ selectedAddress: address }),
-  setPaymentMethod: (method) => set({ paymentMethod: method }),
+  removeItem: async (itemId) => {
+    set({ isLoading: true });
+    try {
+      const res = await cartService.removeItem(itemId);
+      set({
+        items: res.data.items,
+        subtotal: res.data.subtotal,
+        deliveryFee: res.data.deliveryFee,
+        total: res.data.total,
+        isLoading: false,
+      });
+    } catch {
+      set({ isLoading: false });
+    }
+  },
 
-  addAddress: (newAddr) => {
-    const id = `addr-${Date.now()}`;
-    const full = { ...newAddr, id };
-    set((state) => ({
-      addresses: [...state.addresses, full],
-      selectedAddress: state.selectedAddress ? state.selectedAddress : full,
-    }));
+  clearCart: async () => {
+    await cartService.clearCart();
+    set({ items: [], subtotal: 0, deliveryFee: 0, total: 0 });
   },
 
   getTotalItems: () => get().items.reduce((acc, i) => acc + i.quantity, 0),
-  getSubtotal: () => get().items.reduce((acc, i) => acc + i.price * i.quantity, 0),
-  getDeliveryFee: () => (get().getSubtotal() > 500 || get().items.length === 0 ? 0 : 29),
-  getConvenienceFee: () => (get().items.length > 0 ? 15 : 0),
-  getGrandTotal: () => {
-    const sub = get().getSubtotal();
-    if (sub === 0) return 0;
-    return sub + get().getDeliveryFee() + get().getConvenienceFee();
-  },
+  getSubtotal: () => get().subtotal,
+  getDeliveryFee: () => get().deliveryFee,
+  getGrandTotal: () => get().total,
 }));
