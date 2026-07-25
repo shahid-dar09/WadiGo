@@ -12,6 +12,7 @@ import {
 import { Container } from '../../components/ui/Container';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
+import { AuthPortalLinks } from '../../components/auth/AuthPortalLinks';
 
 const merchantSchema = z.object({
   businessName: z.string().min(2, 'Business name is required'),
@@ -353,6 +354,9 @@ export const MerchantAuthPage: React.FC = () => {
                 <div className="flex items-center gap-1 text-[10px] text-slate-400"><Store className="w-3.5 h-3.5 text-amber-500" /> Store Dashboard</div>
                 <div className="flex items-center gap-1 text-[10px] text-slate-400"><Zap className="w-3.5 h-3.5 text-amber-500" /> Auto Dispatch</div>
               </div>
+
+              {/* Portal Links */}
+              <AuthPortalLinks />
             </div>
           </div>
         </motion.div>

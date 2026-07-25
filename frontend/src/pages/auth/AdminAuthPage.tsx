@@ -5,6 +5,7 @@ import { ShieldCheck, Mail, Lock, ArrowRight, AlertCircle, Sparkles, Users, Stor
 import { Container } from '../../components/ui/Container';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
+import { AuthPortalLinks } from '../../components/auth/AuthPortalLinks';
 
 const FeaturePill: React.FC<{
   icon: React.ElementType;
@@ -176,6 +177,9 @@ export const AdminAuthPage: React.FC = () => {
               <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-[10px] text-slate-400 text-center">
                 🔒 Restricted access for platform operators & system administrators.
               </div>
+
+              {/* Portal Links */}
+              <AuthPortalLinks />
             </div>
           </div>
         </motion.div>

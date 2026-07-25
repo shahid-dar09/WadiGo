@@ -13,6 +13,7 @@ import { Container } from '../../components/ui/Container';
 import { Button } from '../../components/ui/Button';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
+import { AuthPortalLinks } from '../../components/auth/AuthPortalLinks';
 
 /* ─── Schema ───────────────────────────────────────────────────────────── */
 const loginSchema = z.object({
@@ -399,6 +400,9 @@ export const LoginPage: React.FC = () => {
                   </div>
                 ))}
               </div>
+
+              {/* Portal Links */}
+              <AuthPortalLinks />
             </div>
           </div>
 

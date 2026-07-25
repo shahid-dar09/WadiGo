@@ -11,6 +11,7 @@ import {
 import { Container } from '../../components/ui/Container';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
+import { AuthPortalLinks } from '../../components/auth/AuthPortalLinks';
 
 const deliverySchema = z.object({
   name: z.string().min(2, 'Name is required'),
@@ -296,6 +297,9 @@ export const DeliveryAuthPage: React.FC = () => {
                 <div className="flex items-center gap-1 text-[10px] text-slate-400"><Navigation className="w-3.5 h-3.5 text-emerald-500" /> Live Queue</div>
                 <div className="flex items-center gap-1 text-[10px] text-slate-400"><Clock className="w-3.5 h-3.5 text-emerald-500" /> Instant Payout</div>
               </div>
+
+              {/* Portal Links */}
+              <AuthPortalLinks />
             </div>
           </div>
         </motion.div>

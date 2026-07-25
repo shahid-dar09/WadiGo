@@ -13,6 +13,7 @@ import {
 import { Container } from '../../components/ui/Container';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
+import { AuthPortalLinks } from '../../components/auth/AuthPortalLinks';
 
 /* ─── Schemas ──────────────────────────────────────────────────────────── */
 const registerSchema = z.object({
@@ -548,6 +549,9 @@ export const RegisterPage: React.FC = () => {
                   Sign In →
                 </Link>
               </motion.p>
+
+              {/* Portal Links */}
+              <AuthPortalLinks />
             </div>
           </div>
 
