@@ -51,7 +51,7 @@ export const AppRoutes: React.FC = () => {
       </Route>
 
       {/* Customer Portal Protected Routes */}
-      <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute redirectPath="/auth/login" />}>
         <Route element={<CustomerLayout />}>
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="products" element={<ProductCatalogPage />} />
@@ -64,7 +64,7 @@ export const AppRoutes: React.FC = () => {
       </Route>
 
       {/* Merchant Portal Protected Routes */}
-      <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute allowedRoles={['MERCHANT', 'ADMIN']} redirectPath="/auth/merchant/login" />}>
         <Route path="merchant" element={<MerchantLayout />}>
           <Route index element={<MerchantDashboardPage />} />
           <Route path="profile" element={<MerchantProfilePage />} />
@@ -74,14 +74,14 @@ export const AppRoutes: React.FC = () => {
       </Route>
 
       {/* Delivery Partner Portal Protected Routes */}
-      <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute allowedRoles={['DELIVERY_PARTNER', 'ADMIN']} redirectPath="/auth/delivery/login" />}>
         <Route path="delivery" element={<DeliveryLayout />}>
           <Route index element={<DeliveryDashboardPage />} />
         </Route>
       </Route>
 
       {/* Admin Portal Protected Routes */}
-      <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute allowedRoles={['ADMIN']} redirectPath="/auth/admin/login" />}>
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
           <Route path="users" element={<AdminUsersPage />} />

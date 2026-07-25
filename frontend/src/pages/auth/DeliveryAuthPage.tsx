@@ -35,7 +35,7 @@ export const DeliveryAuthPage: React.FC = () => {
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
 
     try {
-      await login({ email, password });
+      await login({ email, password, requiredRole: 'DELIVERY_PARTNER' });
       navigate('/delivery');
     } catch (err: any) {
       setErrorMsg(err.message || 'Delivery sign in failed');

@@ -19,6 +19,7 @@ export interface VerifyOtpPayload {
 export interface LoginPayload {
   email: string;
   password: string;
+  requiredRole?: 'CUSTOMER' | 'MERCHANT' | 'DELIVERY_PARTNER' | 'ADMIN';
 }
 
 export interface AuthResponseData {

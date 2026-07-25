@@ -43,7 +43,7 @@ export class AuthController {
   static async login(req: Request, res: Response, next: NextFunction) {
     try {
       const validatedInput = loginSchema.parse(req.body);
-      const result = await AuthService.loginUser(validatedInput);
+      const result = await AuthService.loginUser(validatedInput, validatedInput.requiredRole);
       res.status(200).json(ApiResponse.success('Logged in successfully', result));
     } catch (error) {
       next(error);

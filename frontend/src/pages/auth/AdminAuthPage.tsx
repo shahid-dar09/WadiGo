@@ -17,7 +17,7 @@ export const AdminAuthPage: React.FC = () => {
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
 
     try {
-      await login({ email, password });
+      await login({ email, password, requiredRole: 'ADMIN' });
       navigate('/admin');
     } catch (err: any) {
       setErrorMsg(err.message || 'Admin authentication failed');

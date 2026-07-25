@@ -27,6 +27,7 @@ export const resendOtpSchema = z.object({
 export const loginSchema = z.object({
   email: z.string().email('Invalid email address format'),
   password: z.string().min(1, 'Password is required'),
+  requiredRole: z.enum(['CUSTOMER', 'MERCHANT', 'DELIVERY_PARTNER', 'ADMIN']).optional(),
 });
 
 export const refreshTokenSchema = z.object({
