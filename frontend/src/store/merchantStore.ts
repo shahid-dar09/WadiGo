@@ -45,7 +45,8 @@ export const useMerchantStore = create<MerchantState>((set, get) => ({
     set({ isLoading: true });
     try {
       const res = await merchantService.createProfile(data);
-      set({ profile: res.data, isLoading: false });
+      const profile = { ...res.data, stores: res.data.stores || [] };
+      set({ profile, isLoading: false });
     } catch (err: any) {
       set({ isLoading: false, error: err.message });
       throw err;
@@ -56,7 +57,13 @@ export const useMerchantStore = create<MerchantState>((set, get) => ({
     set({ isLoading: true });
     try {
       const res = await merchantService.updateProfile(data);
-      set({ profile: res.data, isLoading: false });
+      set((state) => {
+        const stores = res.data.stores || state.profile?.stores || [];
+        return {
+          profile: { ...res.data, stores },
+          isLoading: false,
+        };
+      });
     } catch (err: any) {
       set({ isLoading: false, error: err.message });
       throw err;

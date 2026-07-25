@@ -33,6 +33,13 @@ export class MerchantRepository {
   }) {
     return prisma.merchantProfile.create({
       data: { userId, ...data },
+      include: {
+        stores: {
+          include: {
+            _count: { select: { inventory: true } },
+          },
+        },
+      },
     });
   }
 
@@ -42,11 +49,25 @@ export class MerchantRepository {
     contactEmail: string;
     contactPhone: string;
   }>) {
-    return prisma.merchantProfile.update({ where: { id }, data });
+    return prisma.merchantProfile.update({
+      where: { id },
+      data,
+      include: {
+        stores: {
+          include: {
+            _count: { select: { inventory: true } },
+          },
+        },
+      },
+    });
   }
 
   static async updateStatus(id: string, status: MerchantStatus) {
-    return prisma.merchantProfile.update({ where: { id }, data: { status } });
+    return prisma.merchantProfile.update({
+      where: { id },
+      data: { status },
+      include: { stores: true },
+    });
   }
 
   static async createStore(merchantId: string, data: {

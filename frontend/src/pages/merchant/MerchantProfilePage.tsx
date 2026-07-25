@@ -217,11 +217,11 @@ export const MerchantProfilePage: React.FC = () => {
               </motion.form>
             )}
 
-            {profile.stores?.length === 0 ? (
+            {(!profile.stores || profile.stores.length === 0) ? (
               <p className="text-xs text-slate-400 py-4 text-center">No store locations yet. Add your first store above.</p>
             ) : (
               <div className="space-y-3">
-                {profile.stores.map((store) => (
+                {(profile.stores || []).map((store) => (
                   <div key={store.id} className="p-4 rounded-2xl border border-amber-100 dark:border-white/10 bg-amber-50/50 dark:bg-slate-900/50 space-y-1">
                     <div className="flex items-center justify-between">
                       <p className="font-bold text-sm text-amber-900 dark:text-white">{store.name}</p>
