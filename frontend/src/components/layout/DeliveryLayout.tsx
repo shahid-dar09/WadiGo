@@ -27,7 +27,7 @@ export const DeliveryLayout: React.FC = () => {
           <button onClick={toggleTheme} className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-white">
             {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
-          <button onClick={() => { logout(); navigate('/auth/login'); }} className="p-2 rounded-xl bg-white/10 hover:bg-red-500/80 transition-colors text-white" title="Sign Out">
+          <button onClick={() => { logout(); navigate('/auth/delivery/login'); }} className="p-2 rounded-xl bg-white/10 hover:bg-red-500/80 transition-colors text-white" title="Sign Out">
             <LogOut className="w-4 h-4" />
           </button>
         </div>

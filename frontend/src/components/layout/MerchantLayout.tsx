@@ -24,7 +24,7 @@ const MerchantSidebar: React.FC = () => {
   const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
 
-  const handleLogout = () => { logout(); navigate('/auth/login'); };
+  const handleLogout = () => { logout(); navigate('/auth/merchant/login'); };
 
   return (
     <aside className={`hidden lg:flex flex-col h-screen sticky top-0 bg-white dark:bg-brand-darkSurface border-r border-amber-100/70 dark:border-white/10 shadow-sm z-30 select-none transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>

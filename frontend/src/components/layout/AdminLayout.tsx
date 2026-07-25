@@ -71,7 +71,7 @@ const AdminSidebar: React.FC = () => {
             </div>
           )}
         </div>
-        <button onClick={() => { logout(); navigate('/auth/login'); }}
+        <button onClick={() => { logout(); navigate('/auth/admin/login'); }}
           className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-red-200 dark:border-red-900/50 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50/50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-950/60 transition-all ${isCollapsed ? 'px-0' : 'px-3'}`}>
           <LogOut className="w-4 h-4 text-red-500 shrink-0" />
           {!isCollapsed && <span>Sign Out</span>}
