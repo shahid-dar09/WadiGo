@@ -6,6 +6,8 @@ export interface RegisterInitPayload {
   email: string;
   password: string;
   phone?: string;
+  role?: 'CUSTOMER' | 'MERCHANT' | 'DELIVERY_PARTNER' | 'ADMIN';
+  businessName?: string;
 }
 
 export interface VerifyOtpPayload {

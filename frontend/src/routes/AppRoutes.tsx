@@ -9,6 +9,9 @@ import { AdminLayout } from '../components/layout/AdminLayout';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/auth/LoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
+import { MerchantAuthPage } from '../pages/auth/MerchantAuthPage';
+import { DeliveryAuthPage } from '../pages/auth/DeliveryAuthPage';
+import { AdminAuthPage } from '../pages/auth/AdminAuthPage';
 
 import { DashboardPage } from '../pages/customer/DashboardPage';
 import { ProductCatalogPage } from '../pages/customer/ProductCatalogPage';
@@ -40,6 +43,11 @@ export const AppRoutes: React.FC = () => {
         <Route index element={<HomePage />} />
         <Route path="auth/login" element={<LoginPage />} />
         <Route path="auth/register" element={<RegisterPage />} />
+        <Route path="auth/merchant/login" element={<MerchantAuthPage />} />
+        <Route path="auth/merchant/register" element={<MerchantAuthPage />} />
+        <Route path="auth/delivery/login" element={<DeliveryAuthPage />} />
+        <Route path="auth/delivery/register" element={<DeliveryAuthPage />} />
+        <Route path="auth/admin/login" element={<AdminAuthPage />} />
       </Route>
 
       {/* Customer Portal Protected Routes */}

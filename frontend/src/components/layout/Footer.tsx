@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Container } from '../ui/Container';
 import {
   Zap, ShieldCheck, Truck, Clock, Sparkles,
-  Github, Linkedin, Instagram, ArrowUpRight,
+  Github, Linkedin, Instagram, ArrowUpRight, Store, User
 } from 'lucide-react';
 
 const SOCIAL_LINKS = [
@@ -69,7 +70,7 @@ export const Footer: React.FC = () => {
 
       <Container size="lg" className="relative z-10">
 
-        {/* ── Value Props ──────────────────────────────────────────────── */}
+        {/* Value Props */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-12 border-b border-white/8 dark:border-white/5">
           {VALUE_PROPS.map(({ icon: Icon, label, desc, colorClass, bgClass }) => (
             <div key={label} className="flex items-start gap-3 group">
@@ -84,7 +85,7 @@ export const Footer: React.FC = () => {
           ))}
         </div>
 
-        {/* ── Main Footer Grid ─────────────────────────────────────────── */}
+        {/* Main Footer Grid */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 py-12">
 
           {/* Brand column */}
@@ -141,31 +142,42 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Platform column */}
+          {/* Portals column */}
           <div className="space-y-4">
-            <h5 className="font-semibold text-white text-sm">Platform</h5>
+            <h5 className="font-semibold text-white text-sm">Auth Portals</h5>
             <ul className="space-y-2.5">
-              {['How It Works', 'AI Engine', 'Product Search', 'Hyperlocal Dispatch'].map(item => (
-                <li key={item}>
-                  <a href="#" className="text-xs text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-1 group">
-                    {item}
+              {[
+                { name: 'Customer Sign In', href: '/auth/login' },
+                { name: 'Customer Register', href: '/auth/register' },
+                { name: 'Merchant Portal', href: '/auth/merchant/login' },
+                { name: 'Delivery Partner', href: '/auth/delivery/login' },
+                { name: 'Admin Portal', href: '/auth/admin/login' },
+              ].map(item => (
+                <li key={item.name}>
+                  <Link to={item.href} className="text-xs text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-1 group">
+                    {item.name}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity -mt-0.5" />
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Merchants column */}
+          {/* For Merchants column */}
           <div className="space-y-4">
             <h5 className="font-semibold text-white text-sm">For Merchants</h5>
             <ul className="space-y-2.5">
-              {['Partner with WadiGo', 'Merchant Portal', 'Fulfillment Rules', 'Inventory Sync'].map(item => (
-                <li key={item}>
-                  <a href="#" className="text-xs text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-1 group">
-                    {item}
+              {[
+                { name: 'Partner with WadiGo', href: '/auth/merchant/login' },
+                { name: 'Register Store', href: '/auth/merchant/login' },
+                { name: 'Merchant Portal', href: '/merchant' },
+                { name: 'Inventory Management', href: '/merchant/inventory' },
+              ].map(item => (
+                <li key={item.name}>
+                  <Link to={item.href} className="text-xs text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-1 group">
+                    {item.name}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity -mt-0.5" />
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -187,10 +199,10 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* ── Bottom Bar ───────────────────────────────────────────────── */}
+        {/* Bottom Bar */}
         <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-600">
           <p>© {new Date().getFullYear()} WadiGo. Crafted with passion for hyperlocal commerce.</p>
-          <p className="font-mono text-slate-700">v1.0.0 · Phase 1</p>
+          <p className="font-mono text-slate-700">v1.0.0 · All Portals Active</p>
         </div>
 
       </Container>

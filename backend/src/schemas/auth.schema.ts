@@ -9,6 +9,8 @@ export const registerInitSchema = z.object({
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[0-9]/, 'Password must contain at least one number'),
   phone: z.string().optional(),
+  role: z.enum(['CUSTOMER', 'MERCHANT', 'DELIVERY_PARTNER', 'ADMIN']).default('CUSTOMER'),
+  businessName: z.string().optional(),
 });
 
 export const verifyOtpSchema = z.object({

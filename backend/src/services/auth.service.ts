@@ -2,9 +2,11 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
 import { UserRepository } from '../repositories/user.repository.js';
+import { MerchantRepository } from '../repositories/merchant.repository.js';
 import { EmailService } from './email.service.js';
 import { ApiError } from '../utils/api-error.js';
 import { RegisterInitInput, VerifyOtpInput, LoginInput } from '../schemas/auth.schema.js';
+import { RoleName } from '@prisma/client';
 
 export class AuthService {
   // Step 1 of Registration: Validate details, generate 6-digit OTP, send email, store pending payload
@@ -23,6 +25,8 @@ export class AuthService {
       email: input.email,
       phone: input.phone,
       passwordHash,
+      role: input.role || 'CUSTOMER',
+      businessName: input.businessName,
     });
 
     await UserRepository.saveOtp(input.email, otp, expiresAt, payloadJson, 'REGISTRATION');
@@ -57,15 +61,25 @@ export class AuthService {
     }
 
     const payload = JSON.parse(otpRecord.payloadJson);
+    const targetRole = (payload.role as RoleName) || RoleName.CUSTOMER;
 
-    // Create user in DB
+    // Create user in DB with specific role
     const user = await UserRepository.createUserWithRole({
       name: payload.name,
       email: payload.email,
       phone: payload.phone,
       passwordHash: payload.passwordHash,
-      roleName: 'CUSTOMER',
+      roleName: targetRole,
     });
+
+    // If registering as merchant, auto-create merchant profile
+    if (targetRole === RoleName.MERCHANT) {
+      await MerchantRepository.createProfile(user.id, {
+        businessName: payload.businessName || payload.name,
+        contactEmail: payload.email,
+        contactPhone: payload.phone || '+91 99999 99999',
+      });
+    }
 
     // Cleanup OTP record
     await UserRepository.deleteOtp(otpRecord.id);
@@ -101,8 +115,8 @@ export class AuthService {
     };
   }
 
-  // Login User
-  static async loginUser(input: LoginInput) {
+  // Login User (with optional required role check)
+  static async loginUser(input: LoginInput, requiredRole?: string) {
     const user = await UserRepository.findByEmail(input.email);
     if (!user) {
       throw ApiError.unauthorized('Invalid email or password');
@@ -118,6 +132,11 @@ export class AuthService {
     }
 
     const roleNames = user.roles.map((r) => r.role.name);
+
+    if (requiredRole && !roleNames.includes(requiredRole as RoleName) && !roleNames.includes(RoleName.ADMIN)) {
+      throw ApiError.forbidden(`Access denied. Account is not registered as a ${requiredRole.replace('_', ' ').toLowerCase()}.`);
+    }
+
     const tokens = await this.generateTokens(user.id, user.email, roleNames);
 
     return {
