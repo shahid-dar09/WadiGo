@@ -12,3 +12,14 @@ export const productSearchSchema = z.object({
 });
 
 export type ProductSearchInput = z.infer<typeof productSearchSchema>;
+
+export const createProductSchema = z.object({
+  categoryId: z.string().min(1, { message: 'Category is required' }),
+  name: z.string().min(2, { message: 'Product name must be at least 2 characters' }),
+  slug: z.string().optional(),
+  description: z.string().optional(),
+  imageUrl: z.string().optional(),
+  unit: z.string().default('piece'),
+});
+
+export type CreateProductInput = z.infer<typeof createProductSchema>;

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ProductService } from '../services/product.service.js';
 import { ApiResponse } from '../utils/api-response.js';
-import { productSearchSchema } from '../schemas/product.schema.js';
+import { productSearchSchema, createProductSchema } from '../schemas/product.schema.js';
 
 export class ProductController {
   static async search(req: Request, res: Response, next: NextFunction) {
@@ -28,7 +28,8 @@ export class ProductController {
 
   static async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const product = await ProductService.createProduct(req.body);
+      const input = createProductSchema.parse(req.body);
+      const product = await ProductService.createProduct(input);
       res.status(201).json(ApiResponse.success('Product created successfully', product));
     } catch (error) { next(error); }
   }

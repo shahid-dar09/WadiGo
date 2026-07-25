@@ -77,16 +77,17 @@ export class ProductService {
   static async createProduct(data: {
     categoryId: string;
     name: string;
-    slug: string;
+    slug?: string;
     description?: string;
     imageUrl?: string;
     unit: string;
   }) {
-    const existing = await ProductRepository.findBySlug(data.slug);
+    const slug = data.slug || (data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now().toString(36));
+    const existing = await ProductRepository.findBySlug(slug);
     if (existing) {
       throw ApiError.badRequest('A product with this slug already exists');
     }
-    return ProductRepository.create(data);
+    return ProductRepository.create({ ...data, slug });
   }
 
   static async updateProduct(id: string, data: any) {

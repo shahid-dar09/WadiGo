@@ -25,6 +25,14 @@ export interface ProductListItem {
   isAvailable: boolean;
 }
 
+export interface CategoryItem {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  imageUrl?: string;
+}
+
 export interface ProductDetail extends ProductListItem {
   variants: Array<{ id: string; name: string; sku: string }>;
   inventory: Array<{
@@ -65,5 +73,19 @@ export const productService = {
 
   async getBySlug(slug: string): Promise<ApiResponse<ProductDetail>> {
     return api.get(`/products/${slug}`);
+  },
+
+  async getCategories(): Promise<ApiResponse<CategoryItem[]>> {
+    return api.get('/categories');
+  },
+
+  async createProduct(data: {
+    categoryId: string;
+    name: string;
+    unit: string;
+    description?: string;
+    imageUrl?: string;
+  }): Promise<ApiResponse<ProductListItem>> {
+    return api.post('/products', data);
   },
 };

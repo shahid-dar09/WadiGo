@@ -8,8 +8,8 @@ const productRouter = Router();
 productRouter.get('/', ProductController.search);
 productRouter.get('/:slug', ProductController.getBySlug);
 
-// Admin-only product management
-productRouter.post('/', authenticate, authorizeRoles('ADMIN'), ProductController.create);
-productRouter.patch('/:id', authenticate, authorizeRoles('ADMIN'), ProductController.update);
+// Admin and Merchant product creation
+productRouter.post('/', authenticate, authorizeRoles('ADMIN', 'MERCHANT'), ProductController.create);
+productRouter.patch('/:id', authenticate, authorizeRoles('ADMIN', 'MERCHANT'), ProductController.update);
 
 export default productRouter;

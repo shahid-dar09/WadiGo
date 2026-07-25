@@ -88,7 +88,7 @@ export class MerchantRepository {
         merchant: true,
         inventory: {
           include: {
-            product: { select: { id: true, name: true, imageUrl: true, unit: true } },
+            product: { select: { id: true, name: true, imageUrl: true, unit: true, category: { select: { id: true, name: true } } } },
           },
         },
       },

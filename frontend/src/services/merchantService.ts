@@ -30,7 +30,7 @@ export interface InventoryItem {
   salePrice: number | null;
   stockQuantity: number;
   isAvailable: boolean;
-  product: { id: string; name: string; imageUrl: string | null; unit: string };
+  product: { id: string; name: string; imageUrl: string | null; unit: string; category?: { id: string; name: string } };
 }
 
 export const merchantService = {
